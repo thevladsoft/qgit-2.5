@@ -589,6 +589,13 @@ bool MainImpl::eventFilter(QObject* obj, QEvent* ev) {
 			return true;
 		}
 	}
+	else if (ev->type() == QEvent::KeyPress) {
+		QKeyEvent* keyEvent = static_cast<QKeyEvent*>(ev);
+		if (keyEvent->key() == Qt::Key_F1) {
+			ActHelp_activated();
+			return true;
+		}
+	}
 	return QWidget::eventFilter(obj, ev);
 }
 
