@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<VisualStudioToolFile
+	Name="Qt Rules"
+	Version="8.00"
+	>
+	<Rules>
+		<CustomBuildRule
+			Name="UI"
+			DisplayName="Compile Qt User Interface file (*.ui)"
+			CommandLine="&quot;$(QTDIR)/bin/uic.exe&quot; &quot;$(InputPath)&quot; -o &quot;$(InputDir)ui_$(InputName).h&quot;"
+			Outputs="&quot;$(InputDir)ui_$(InputName).h&quot;"
+			FileExtensions="*.ui"
+			ExecutionDescription="Creating UI include file &quot;ui_$(InputName).h&quot;"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+		<CustomBuildRule
+			Name="QRC"
+			DisplayName="Compile Qt Resource Compiler file (*.qrc)"
+			CommandLine="&quot;$(QTDIR)/bin/rcc.exe&quot; &quot;$(InputPath)&quot; -o &quot;$(InputDir)qrc_$(InputName).cpp&quot;"
+			Outputs="&quot;$(InputDir)qrc_$(InputName).cpp&quot;"
+			FileExtensions="*.qrc"
+			ExecutionDescription="Creating QRC source file &quot;$(InputDir)qrc_$(InputName).cpp&quot;"
+			>
+			<Properties>
+			</Properties>
+		</CustomBuildRule>
+	</Rules>
+</VisualStudioToolFile>
