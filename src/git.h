@@ -129,6 +129,8 @@ public:
 	};
 	typedef QList<TreeEntry> TreeInfo;
 
+	static SCRef getMsysGitPath();
+
 	void setDefaultModel(FileHistory* fh) { revData = fh; }
 	void checkEnvironment();
 	void userInfo(SList info);

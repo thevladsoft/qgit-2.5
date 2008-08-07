@@ -458,5 +458,9 @@ bool QGit::startProcess(QProcess* proc, SCList args, SCRef buf, bool* winShell) 
 	proc->setEnvironment(env);
 
 	proc->start(prog, arguments); // TODO test QIODevice::Unbuffered
-	return proc->waitForStarted();
+	if (!proc->waitForStarted()) {
+		proc->start(Git::getMsysGitPath() + prog, arguments);
+		return proc->waitForStarted();
+	}
+	return true;
 }

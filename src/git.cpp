@@ -299,6 +299,17 @@ Git::Git(QObject* p) : QObject(p) {
 	revsFiles.reserve(MAX_DICT_SIZE);
 }
 
+SCRef Git::getMsysGitPath() {
+
+	static QString path;
+	if (path.isEmpty()) {
+		// Derive the path to msysGit's git.exe from Inno Setup's uninstall registry key.
+		QSettings reg("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Uninstall\\Git_is1",QSettings::NativeFormat);
+		path = reg.value("InstallLocation").toString() + "bin\\";
+	}
+	return path;
+}
+
 void Git::checkEnvironment() {
 
 	QString version;
