@@ -497,7 +497,7 @@ bool Git::startRevList(SCList args, FileHistory* fh) {
 	                "--log-size " // FIXME broken on Windows
 #endif
 	                "--parents --boundary -z "
-	                "--pretty=format:%m%HX%PX%n%an<%ae>%n%at%n%s%n");
+	                "--pretty=format:%m%HX%PX%n%an<%ae>%n%at%n%cn<%ce>%n%ct%n%s%n");
 
 	// we don't need log message body for file history
 	if (isMainHistory(fh))
@@ -532,7 +532,7 @@ bool Git::startUnappliedList() {
 #ifndef Q_OS_WIN32
 	            "--log-size " // FIXME broken on Windows
 #endif
-	            "--pretty=format:%m%HX%PX%n%an<%ae>%n%at%n%s%n%b ^HEAD");
+	            "--pretty=format:%m%HX%PX%n%an<%ae>%n%at%n%cn<%ce>%n%ct%n%s%n%b ^HEAD");
 
 	QStringList sl(cmd.split(' '));
 	sl << unAppliedShaList;
@@ -1568,6 +1568,15 @@ int Rev::indexData(bool quick, bool withDiff) const {
 		return -1;
 	}
 	autDateStart = ++idx;
+	idx += 11; // date length + trailing '\n'
+
+	comStart = idx;
+	idx = ba.indexOf('\n', idx); // committer line end
+	if (idx == -1) {
+		dbs("ASSERT in indexData: unexpected end of data");
+		return -1;
+	}
+	comDateStart = ++idx;
 	idx += 11; // date length + trailing '\n'
 
 	diffStart = diffLen = 0;
