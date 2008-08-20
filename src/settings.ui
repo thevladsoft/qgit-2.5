@@ -49,14 +49,6 @@
         <number>0</number>
        </property>
        <widget class="QWidget" name="General" >
-        <property name="geometry" >
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>521</width>
-          <height>274</height>
-         </rect>
-        </property>
         <attribute name="title" >
          <string>&amp;General</string>
         </attribute>
@@ -312,14 +304,6 @@
         </layout>
        </widget>
        <widget class="QWidget" name="Browse" >
-        <property name="geometry" >
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>521</width>
-          <height>274</height>
-         </rect>
-        </property>
         <attribute name="title" >
          <string>&amp;Browse</string>
         </attribute>
@@ -382,6 +366,16 @@
                  </widget>
                 </item>
                 <item>
+                 <widget class="QCheckBox" name="checkBoxSmartLabelsTopBottom" >
+                  <property name="layoutDirection" >
+                   <enum>Qt::LeftToRight</enum>
+                  </property>
+                  <property name="text" >
+                   <string>... only if scrolled to top / bottom</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
                  <widget class="QCheckBox" name="checkBoxMsgOnNewSHA" >
                   <property name="toolTip" >
                    <string>Check to see always the revision description in main view when browsing the repo. Patch content will be visible after request.</string>
@@ -417,14 +411,6 @@
         </layout>
        </widget>
        <widget class="QWidget" name="Patch" >
-        <property name="geometry" >
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>521</width>
-          <height>274</height>
-         </rect>
-        </property>
         <attribute name="title" >
          <string>Patc&amp;h</string>
         </attribute>
@@ -553,14 +539,6 @@
         </layout>
        </widget>
        <widget class="QWidget" name="WorkingDir" >
-        <property name="geometry" >
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>521</width>
-          <height>274</height>
-         </rect>
-        </property>
         <attribute name="title" >
          <string>&amp;Working dir</string>
         </attribute>
@@ -679,14 +657,6 @@
         </layout>
        </widget>
        <widget class="QWidget" name="Commit" >
-        <property name="geometry" >
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>521</width>
-          <height>274</height>
-         </rect>
-        </property>
         <attribute name="title" >
          <string>&amp;Commit</string>
         </attribute>
@@ -1134,16 +1104,16 @@
    <signal>toggled(bool)</signal>
    <receiver>settingsBase</receiver>
    <slot>checkBoxReopenLastRepo_toggled(bool)</slot>
-    <hints>
-     <hint type="sourcelabel" >
-      <x>32</x>
-      <y>57</y>
-     </hint>
-     <hint type="destinationlabel" >
-      <x>20</x>
-      <y>20</y>
-     </hint>
-    </hints>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>32</x>
+     <y>57</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>20</x>
+     <y>20</y>
+    </hint>
+   </hints>
   </connection>
   <connection>
    <sender>comboBoxCodecs</sender>
@@ -1326,6 +1296,38 @@
    <signal>toggled(bool)</signal>
    <receiver>settingsBase</receiver>
    <slot>checkBoxSmartLabels_toggled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>120</x>
+     <y>75</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>225</x>
+     <y>194</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxSmartLabels</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>checkBoxSmartLabelsTopBottom</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>120</x>
+     <y>75</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>225</x>
+     <y>194</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>checkBoxSmartLabelsTopBottom</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>settingsBase</receiver>
+   <slot>checkBoxSmartLabelsTopBottom_toggled(bool)</slot>
    <hints>
     <hint type="sourcelabel" >
      <x>120</x>

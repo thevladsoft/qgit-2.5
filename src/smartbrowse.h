@@ -36,11 +36,11 @@ public slots:
 	void updateVisibility();
 	void linkActivated(const QString&);
 	void flagChanged(uint);
+	void updatePosition(int value=-1);
 
 private:
 	QTextEdit* curTextEdit(bool* isDiff = NULL);
 	void setVisible(bool b);
-	void updatePosition();
 	int visibilityFlags(bool* isDiff = NULL);
 	bool wheelRolled(int delta, int flags);
 

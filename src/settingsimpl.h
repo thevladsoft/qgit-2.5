@@ -29,6 +29,7 @@ protected slots:
 	void checkBoxRelativeDate_toggled(bool b);
 	void checkBoxLogDiffTab_toggled(bool b);
 	void checkBoxSmartLabels_toggled(bool b);
+	void checkBoxSmartLabelsTopBottom_toggled(bool b);
 	void checkBoxMsgOnNewSHA_toggled(bool b);
 	void checkBoxDiffCache_toggled(bool b);
 	void checkBoxCommitSign_toggled(bool b);

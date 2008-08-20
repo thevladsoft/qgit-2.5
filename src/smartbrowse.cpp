@@ -100,10 +100,10 @@ SmartBrowse::SmartBrowse(RevsView* par) : QObject(par) {
 	diff->horizontalScrollBar()->installEventFilter(this);
 
 	connect(vsbLog, SIGNAL(valueChanged(int)),
-	        this, SLOT(updateVisibility()));
+	        this, SLOT(updatePosition(int)));
 
 	connect(vsbDiff, SIGNAL(valueChanged(int)),
-	        this, SLOT(updateVisibility()));
+	        this, SLOT(updatePosition(int)));
 
 	connect(logTopLbl, SIGNAL(linkActivated(const QString&)),
 	        this, SLOT(linkActivated(const QString&)));
@@ -174,7 +174,7 @@ void SmartBrowse::updateVisibility() {
 
 void SmartBrowse::flagChanged(uint flag) {
 
-	if (flag == QGit::SMART_LBL_F && curTextEdit()) {
+	if ((flag == QGit::SMART_LBL_F || flag == QGit::SMART_LBL_TB_F) && curTextEdit()) {
 		lablesEnabled = QGit::testFlag(QGit::SMART_LBL_F);
 		setVisible(curTextEdit()->isEnabled());
 		updatePosition();
@@ -230,29 +230,37 @@ bool SmartBrowse::eventFilter(QObject *obj, QEvent *event) {
 	return QObject::eventFilter(obj, event);
 }
 
-void SmartBrowse::updatePosition() {
+void SmartBrowse::updatePosition(int value) {
 
-	QTextEdit* te = curTextEdit();
-	if (!te)
-		return;
+	// If called as a slot, value is >= 0, else value is -1.
 
-	QScrollBar* vb = te->verticalScrollBar();
-	QScrollBar* hb = te->horizontalScrollBar();
+	if (value<0 || !QGit::testFlag(QGit::SMART_LBL_TB_F)) {
+		QTextEdit* te = curTextEdit();
+		if (!te)
+			return;
 
-	int w = te->width() - vb->width() * vb->isVisible();
-	int h = te->height() - hb->height() * hb->isVisible();
+		QScrollBar* vb = te->verticalScrollBar();
+		QScrollBar* hb = te->horizontalScrollBar();
 
-	logTopLbl->move(w - logTopLbl->width() - 10, 10);
-	diffTopLbl->move(w - diffTopLbl->width() - 10, 10);
-	logBottomLbl->move(w - logBottomLbl->width() - 10, h - logBottomLbl->height() - 10);
-	diffBottomLbl->move(w - diffBottomLbl->width() - 10, h - diffBottomLbl->height() - 10);
+		int w = te->width() - vb->width() * vb->isVisible();
+		int h = te->height() - hb->height() * hb->isVisible();
 
-	updateVisibility();
+		logTopLbl->move(w - logTopLbl->width() - 10, 10);
+		diffTopLbl->move(w - diffTopLbl->width() - 10, 10);
+		logBottomLbl->move(w - logBottomLbl->width() - 10, h - logBottomLbl->height() - 10);
+		diffBottomLbl->move(w - diffBottomLbl->width() - 10, h - diffBottomLbl->height() - 10);
+	}
 
-	// we are called also when user toggle view manually,
-	// so reset wheel counters to be sure we don't have alias
-	scrollTimer.restart();
-	wheelCnt = 0;
+	if (QGit::testFlag(QGit::SMART_LBL_TB_F)) {
+		updateVisibility();
+	}
+
+	if (value<0) {
+		// we are called also when user toggle view manually,
+		// so reset wheel counters to be sure we don't have alias
+		scrollTimer.restart();
+		wheelCnt = 0;
+	}
 }
 
 bool SmartBrowse::wheelRolled(int delta, int flags) {

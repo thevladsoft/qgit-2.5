@@ -53,6 +53,7 @@ SettingsImpl::SettingsImpl(QWidget* p, Git* g, int defTab) : QDialog(p), git(g) 
 	checkBoxRelativeDate->setChecked(f & REL_DATE_F);
 	checkBoxLogDiffTab->setChecked(f & LOG_DIFF_TAB_F);
 	checkBoxSmartLabels->setChecked(f & SMART_LBL_F);
+	checkBoxSmartLabelsTopBottom->setChecked(f & SMART_LBL_TB_F);
 	checkBoxMsgOnNewSHA->setChecked(f & MSG_ON_NEW_F);
 
 	QSettings set;
@@ -231,6 +232,11 @@ void SettingsImpl::checkBoxLogDiffTab_toggled(bool b) {
 void SettingsImpl::checkBoxSmartLabels_toggled(bool b) {
 
 	changeFlag(SMART_LBL_F, b);
+}
+
+void SettingsImpl::checkBoxSmartLabelsTopBottom_toggled(bool b) {
+
+	changeFlag(SMART_LBL_TB_F, b);
 }
 
 void SettingsImpl::checkBoxMsgOnNewSHA_toggled(bool b) {
