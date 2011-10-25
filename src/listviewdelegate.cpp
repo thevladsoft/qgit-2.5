@@ -53,7 +53,7 @@ void ListViewDelegate::paintGraphLane(QPainter* p, int type, int x1, int x2,
 
     int h = laneHeight / 2;
     int m = (x1 + x2) / 2;
-    int r = (x2 - x1) * 5 / 12;
+    int r = (x2 - x1) * 1 / 3;
     int d =  2 * r;
 
     #define P_CENTER m , h
@@ -71,7 +71,7 @@ void ListViewDelegate::paintGraphLane(QPainter* p, int type, int x1, int x2,
     #define CENTER_DL x2, 0  ,  45
     #define R_CENTER m - r, h - r, d, d
 
-    static QPen myPen(Qt::black, 2); // fast path here
+    static QPen lanePen(Qt::black, 2); // fast path here
 
     // arc
     switch (type) {
@@ -82,8 +82,8 @@ void ListViewDelegate::paintGraphLane(QPainter* p, int type, int x1, int x2,
         QConicalGradient gradient(CENTER_UR);
         gradient.setColorAt(0.375, col);
         gradient.setColorAt(0.625, activeCol);
-        myPen.setBrush(gradient);
-        p->setPen(myPen);
+        lanePen.setBrush(gradient);
+        p->setPen(lanePen);
         p->drawArc(P_CENTER, DELTA_UR);
         break;
     }
@@ -91,8 +91,8 @@ void ListViewDelegate::paintGraphLane(QPainter* p, int type, int x1, int x2,
         QConicalGradient gradient(CENTER_UL);
         gradient.setColorAt(0.375, activeCol);
         gradient.setColorAt(0.625, col);
-        myPen.setBrush(gradient);
-        p->setPen(myPen);
+        lanePen.setBrush(gradient);
+        p->setPen(lanePen);
         p->drawArc(P_CENTER, DELTA_UL);
         break;
     }
@@ -101,8 +101,8 @@ void ListViewDelegate::paintGraphLane(QPainter* p, int type, int x1, int x2,
         QConicalGradient gradient(CENTER_DR);
         gradient.setColorAt(0.375, activeCol);
         gradient.setColorAt(0.625, col);
-        myPen.setBrush(gradient);
-        p->setPen(myPen);
+        lanePen.setBrush(gradient);
+        p->setPen(lanePen);
         p->drawArc(P_CENTER, DELTA_DR);
         break;
     }
@@ -110,8 +110,8 @@ void ListViewDelegate::paintGraphLane(QPainter* p, int type, int x1, int x2,
         break;
     }
 
-    myPen.setColor(col);
-    p->setPen(myPen);
+    lanePen.setColor(col);
+    p->setPen(lanePen);
 
     // vertical line
     switch (type) {
@@ -142,8 +142,8 @@ void ListViewDelegate::paintGraphLane(QPainter* p, int type, int x1, int x2,
         break;
     }
 
-    myPen.setColor(activeCol);
-    p->setPen(myPen);
+    lanePen.setColor(activeCol);
+    p->setPen(lanePen);
 
     // horizontal line
     switch (type) {
@@ -311,7 +311,7 @@ void ListViewDelegate::paintLog(QPainter* p, const QStyleOptionViewItem& opt,
     }
     QStyleOptionViewItem newOpt(opt); // we need a copy
     if (pm) {
-        p->drawPixmap(newOpt.rect.x(), newOpt.rect.y(), *pm);
+        p->drawPixmap(newOpt.rect.x(), newOpt.rect.y()+1, *pm); // +1 means leave a pixel spacing above the pixmap
         newOpt.rect.adjust(pm->width(), 0, 0, 0);
         delete pm;
     }
@@ -373,7 +373,7 @@ void ListViewDelegate::addRefPixmap(QPixmap** pp, SCRef sha, int type, QStyleOpt
     ReferenceList refs = git->m_references.filter(toTempSha(sha), type);
     FOREACH(ReferenceList, it, refs) {
         const Reference* ref = *it;
-        bool isCur = ref->type() & Reference::CUR_BRANCH;;
+        bool isCur = ref->type() & Reference::CUR_BRANCH;
         opt.font.setBold(isCur);
 
         QColor clr;
@@ -398,10 +398,12 @@ void ListViewDelegate::addTextPixmap(QPixmap** pp, SCRef txt, const QStyleOption
 
     QPixmap* pm = *pp;
     int ofs = pm->isNull() ? 0 : pm->width() + 2;
-    int spacing = 2;
-    QFontMetrics fm(opt.font);
-    int pw = fm.boundingRect(txt).width() + 2 * (spacing + int(opt.font.bold()));
-    int ph = fm.height() - 1; // leave vertical space between two consecutive tags
+    int spacing = 4;
+    QFont logfont =opt.font;
+//    logfont.setPointSize(logfont.pointSize()-1);
+    QFontMetrics fm(logfont);
+    int pw = fm.boundingRect(txt).width() + 2 * spacing;
+    int ph = fm.height();
 
     QPixmap* newPm = new QPixmap(ofs + pw, ph);
     QPainter p;
@@ -412,8 +414,8 @@ void ListViewDelegate::addTextPixmap(QPixmap** pp, SCRef txt, const QStyleOption
     }
     p.setPen(opt.palette.color(QPalette::WindowText));
     p.setBrush(opt.palette.color(QPalette::Window));
-    p.setFont(opt.font);
-    p.drawRect(ofs, 0, pw - 1, ph - 1);
+    p.setFont(logfont);
+    p.drawRect(ofs, 0, pw - 1, ph-1);
     p.drawText(ofs + spacing, fm.ascent(), txt);
     p.end();
 

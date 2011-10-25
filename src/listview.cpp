@@ -41,7 +41,7 @@ void ListView::setup(Domain* dm, Git* g)
     setModel(fh);
 
     ListViewDelegate* lvd = new ListViewDelegate(git, lp, this);
-    lvd->setLaneHeight(fontMetrics().height());
+    lvd->setLaneHeight(fontMetrics().height()+1); // spare pixel for spacing
     setItemDelegate(lvd);
 
     setupGeometry(); // after setting delegate
