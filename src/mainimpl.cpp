@@ -145,7 +145,10 @@ MainImpl::MainImpl(SCRef cd, QWidget *parent)
 
     // disable all actions
     updateGlobalActions(false);
-    ActShowTree->toggle();
+
+    // comment this to make left tree visible on startup
+    ActShowTree->setChecked(false);
+    leftWidget->setVisible(false);
 
     connect(git, SIGNAL(fileNamesLoad(int, int)), this, SLOT(fileNamesLoad(int, int)));
 
