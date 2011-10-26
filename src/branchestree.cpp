@@ -61,7 +61,7 @@ void BranchesTree::addNode(ItemType headerType, Reference::Type type)
     QStringList tempList = g->getAllRefNames(type, !Git::optOnlyLoaded);
 
     // делаем хедер и добавляем на верхний уровень
-    BranchesTreeItem *node;
+    BranchesTreeItem *node = 0;
     switch (headerType) {
     case (BranchesTree::HeaderBranches):
         node = new BranchesTreeItem(this, QStringList("Branches"), headerType);
@@ -75,6 +75,7 @@ void BranchesTree::addNode(ItemType headerType, Reference::Type type)
     default:
         break;
     }
+    Q_ASSERT(node);
 
     tempList.sort();
 
@@ -85,7 +86,7 @@ void BranchesTree::addNode(ItemType headerType, Reference::Type type)
 
     addTopLevelItem(node);
 
-    BranchesTreeItem *tempItemList;
+    BranchesTreeItem *tempItemList = 0;
 
     // заполняем дерево потомками
     FOREACH_SL (it, tempList) {
@@ -115,6 +116,7 @@ void BranchesTree::addNode(ItemType headerType, Reference::Type type)
         default:
             break;
         }
+        Q_ASSERT(tempItemList);
         tempItemList->setBranch(QString(*it));
     }
 }
