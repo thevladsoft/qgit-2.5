@@ -37,8 +37,7 @@ signals:
     void annotateReady(Annotate*, bool, const QString&);
 
 private slots:
-    // FIXME: Bad name for SLOT - without "on". Events != Slots
-    void on_deleteWhenDone();
+    void deleteWhenDoneOrLater();
     void slotComputeDiffs();
 
 private:

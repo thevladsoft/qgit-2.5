@@ -59,15 +59,16 @@ void Annotate::deleteWhenDone()
     if (annotateRunning)
         cancelingAnnotate = true;
 
-    on_deleteWhenDone();
+    deleteWhenDoneOrLater();
 }
 
-void Annotate::on_deleteWhenDone()
+void Annotate::deleteWhenDoneOrLater()
 {
     if (!(annotateRunning || EM_IS_PENDING(exAnnCanceled)))
         deleteLater();
     else
-        QTimer::singleShot(20, this, SLOT(on_deleteWhenDone()));
+        //TODO remove this then test. Calling deleteLater() once should be enough.
+        QTimer::singleShot(20, this, SLOT(deleteWhenDoneOrLater()));
 }
 
 bool Annotate::start(const FileHistory* _fh)
