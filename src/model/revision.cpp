@@ -52,6 +52,15 @@ int Revision::indexData(bool quick, bool withDiff) const {
     - zero or more lines with diff content (only for file history)
     - a terminating '\0'
 */
+    static int error = -1;
+    static int shaLength = 40; // from git ref. spec.
+    static int shaEndlLength = shaLength + 1; // an sha key + \n
+    static int shaXEndlLength = shaLength + 2; // an sha key + X marker + \n
+    static char finalOutputMarker = 'F'; // marks the beginning of "Final output" string
+    static char logSizeMarker = 'l'; // marks the beginning of "log size" string
+    static int logSizeStrLength = 9; // "log size"
+    static int asciiPosOfZeroChar = 48; // char "0" has value 48 in ascii table
+
     const int last = ba.size() - 1;
     int logSize = 0, idx = start;
     int logEnd, revEnd;
@@ -60,34 +69,33 @@ int Revision::indexData(bool quick, bool withDiff) const {
     const char* data = ba.constData();
     char* fixup = const_cast<char*>(data); // to build '\0' terminating strings
 
-    // FIXME: Magic numbers!
-    if (start + 42 > last) // at least sha + 'X' + 'X' + '\n' + must be present
+    if (start + shaXEndlLength > last) // at least sha header must be present
         return -1;
 
-    if (data[start] == 'F') // "Final output", let caller handle this
+    if (data[start] == finalOutputMarker) // "Final output", let caller handle this
         return (ba.indexOf('\n', start) != -1 ? -2 : -1);
 
-    // parse log size if present
-    if (data[idx] == 'l') { // 'log size xxx\n'
+    // parse   'log size xxx\n'   if present -- from git ref. spec.
+    if (data[idx] == logSizeMarker) {
+        idx += logSizeStrLength; // move idx to beginning of log size value
 
-        idx += 9; // move idx to beginning of log size
-        int tmp;
-        while ((tmp = data[idx++]) != '\n')
-            logSize = logSize * 10 + tmp - 48;
+        // parse log size value
+        int digit;
+        while ((digit = data[idx++]) != '\n')
+            logSize = logSize * 10 + digit - asciiPosOfZeroChar;
     }
-    // idx points to the boundary information
-    if (++idx + 42 > last)
-        return -1;
+    // idx points to the boundary information, which has the same length as an sha header.
+    if (++idx + shaXEndlLength > last)
+        return error;
 
     shaStart = idx;
 
-    // ok, now shaStart is valid but msgSize
-    // could be still 0 if not available
+    // ok, now shaStart is valid but msgSize could be still 0 when not available
     logEnd = shaStart - 1 + logSize;
     if (logEnd > last)
-        return -1;
+        return error;
 
-    idx += 40; // now points to 'X' place holder
+    idx += shaLength; // now points to 'X' place holder
 
     fixup[idx] = '\0'; // we want sha to be a '\0' terminated ascii string
 
@@ -97,7 +105,7 @@ int Revision::indexData(bool quick, bool withDiff) const {
         ++idx;
     else do {
         parentsCnt++;
-        idx += 41;
+        idx += shaEndlLength;
 
         if (idx + 1 >= last)
             break;
@@ -126,12 +134,13 @@ int Revision::indexData(bool quick, bool withDiff) const {
     if (revEnd > last) // after this point we know to have the whole record
         return -1;
 
-    // ok, now revEnd is valid but logEnd could be not if !logSize
+    // ok, now revEnd is valid but logEnd might not be if !logSize
     // in case of diff we are sure content will be consumed so
     // we go all the way
     if (quick && !withDiff)
         return ++revEnd;
 
+    // commiter
     comStart = ++idx;
     idx = ba.indexOf('\n', idx); // committer line end
     if (idx == -1) {
@@ -139,14 +148,23 @@ int Revision::indexData(bool quick, bool withDiff) const {
         return -1;
     }
 
+    // author
     autStart = ++idx;
     idx = ba.indexOf('\n', idx); // author line end
     if (idx == -1) {
         dbs("ASSERT in indexData: unexpected end of data");
         return -1;
     }
+
+    // author date in Unix format (seconds since epoch)
     autDateStart = ++idx;
-    idx += 11; // date length + trailing '\n'
+    idx = ba.indexOf('\n', idx); // author date end without '\n'
+    if (idx == -1) {
+        dbs("ASSERT in indexData: unexpected end of data");
+        return -1;
+    }
+    // if no error, point to trailing \n
+    ++idx;
 
     diffStart = diffLen = 0;
     if (withDiff) {
