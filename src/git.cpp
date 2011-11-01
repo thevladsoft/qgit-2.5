@@ -1513,19 +1513,19 @@ bool Git::makeTag(SCRef sha, SCRef tagName, SCRef msg)
 
 bool Git::deleteTag(const QString &tagName)
 {
-    Reference* ref = m_references.byName(tagName, Reference::TAG);
-    if (!ref) {
-        return false;
+    bool success = false;
+    if (m_references.byName(tagName, Reference::TAG)) {
+        success = run("git tag -d " + tagName);
     }
-
-    return run("git tag -d " + tagName);
+    return success;
 }
 
 bool Git::checkout(SCRef sha)
 {
-    bool b = run("git checkout " + sha);
-    updateCurrentBranch();
-    return b;
+    bool success = run("git checkout " + sha);
+    // update branch if checkout succeeded
+    if (success) updateCurrentBranch();
+    return success;
 }
 
 bool Git::stgPush(const ShaString& sha)
@@ -1550,13 +1550,16 @@ bool Git::stgPop(const ShaString& sha)
 
 bool Git::updateCurrentBranch() {
     QString curBranchName;
-    if (!run("git branch", &curBranchName))
-        return false;
 
-    curBranchName = curBranchName.prepend('\n').section("\n*", 1);
-    curBranchName = curBranchName.section('\n', 0, 0).trimmed();
-    m_currentBranch = curBranchName;
-    return true;
+    bool success = run("git branch", &curBranchName);
+    if (success) {
+        // split list returned by git wrt * (current branch marker) ...
+        curBranchName = curBranchName.prepend('\n').section("\n*", 1);
+        curBranchName = curBranchName.section('\n', 0, 0).trimmed();
+        // ... and store recovered current branch name in member
+        m_currentBranch = curBranchName;
+    }
+    return success;
 }
 
 QString& Git::currentBranch() {
@@ -1653,8 +1656,9 @@ bool Git::getRefs() {
         isStGIT = run("stg branch", &stgCurBranch); // slow command
         errorReportingEnabled = true;
         stgCurBranch = stgCurBranch.trimmed();
-    } else
+    } else {
         isStGIT = false;
+    }
 
     // check for a merge and read current branch sha
 //    isMergeHead = d.exists("MERGE_HEAD");
@@ -1662,17 +1666,16 @@ bool Git::getRefs() {
 //    if (!run("git rev-parse --revs-only HEAD", &curBranchSHA))
 //        return false;
 
-    if (!updateCurrentBranch())
-        return false;
-
-//    curBranchSHA = curBranchSHA.trimmed();
-
-    bool success = m_references.load(stgCurBranch);
-    if (!success) return success;
-
-    Reference* ref = m_references.byName(m_currentBranch);
-    if (ref) {
-        ref->setType(ref->type() | Reference::CUR_BRANCH);
+    bool success = updateCurrentBranch();
+    if (success) {
+        // curBranchSHA = curBranchSHA.trimmed();
+        success = m_references.load(stgCurBranch);
+        if (success) {
+            Reference* ref = m_references.byName(m_currentBranch);
+            if (ref) {
+                ref->setType(ref->type() | Reference::CUR_BRANCH);
+            }
+        }
     }
     return success;
 }
