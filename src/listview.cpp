@@ -386,7 +386,7 @@ bool ListView::getLaneParentsChilds(SCRef sha, int x, SList p, SList c)
         root = p.first();
     }
     // then find children
-    c = git->getChilds(root);
+    c = git->getChildren(root);
     return true;
 }
 

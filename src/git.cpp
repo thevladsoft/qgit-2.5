@@ -524,7 +524,7 @@ const QString Git::getLaneParent(SCRef fromSHA, int laneNum)
     return "";
 }
 
-const QStringList Git::getChilds(SCRef parent)
+const QStringList Git::getChildren(SCRef parent)
 {
     QStringList childs;
     const Revision* r = revLookup(parent);
@@ -978,7 +978,7 @@ const QString Git::getDesc(SCRef sha, QRegExp& shortLogRE, QRegExp& longLogRE, b
                 ts << formatList(patches, "Patch");
             } else {
                 ts << formatList(c->parents(), "Parent", false);
-                ts << formatList(getChilds(sha), "Child", false);
+                ts << formatList(getChildren(sha), "Child", false);
                 ts << formatList(getDescendantBranches(sha), "Branch", false);
                 ts << formatList(getNearTags(!optGoDown, sha), "Follows");
                 ts << formatList(getNearTags(optGoDown, sha), "Precedes");
