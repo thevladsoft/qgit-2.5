@@ -1574,16 +1574,19 @@ static QHash<QString, QString> localDates;
 
 // TODO: move to a view
 const QString Git::getLocalDate(SCRef gitDate) {
-// fast path here, we use a cache to avoid the slow date calculation
+    // fast path here, we use a cache to avoid the slow date calculation
 
     QString localDate(localDates.value(gitDate));
-    if (!localDate.isEmpty())
-        return localDate;
 
-    QDateTime d;
-    d.setTime_t(gitDate.toUInt());
-    localDate = d.toString(Qt::LocalDate);
-    localDates[gitDate] = localDate;
+    // cache miss
+    if (localDate.isEmpty()) {
+        QDateTime d;
+        d.setTime_t(gitDate.toUInt());
+        localDate = d.toString(Qt::LocalDate);
+        // augment cache
+        localDates[gitDate] = localDate;
+    }
+
     return localDate;
 }
 
