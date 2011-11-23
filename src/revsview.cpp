@@ -24,20 +24,20 @@ RevsView::RevsView(MainImpl* mi, Git* g, bool isMain) : Domain(mi, g, isMain) {
     revTab->setupUi(container);
 
     tab()->listViewLog->setup(this, g);
-    tab()->textBrowserDesc->setup(this);
-    tab()->textEditDiff->setup(this, git);
-    tab()->fileList->setup(this, git);
+//    tab()->textBrowserDesc->setup(this);
+//    tab()->textEditDiff->setup(this, git);
+//    tab()->fileList->setup(this, git);
     m()->treeView->setup(this, git);
 
 //    setTabLogDiffVisible(QGit::testFlag(QGit::LOG_DIFF_TAB_F));
 
     // restore geometry
     QVector<QSplitter*> v;
-    v << tab()->horizontalSplitter << tab()->verticalSplitter;
-    QGit::restoreGeometrySetting(QGit::REV_GEOM_KEY, NULL, &v);
+//    v << tab()->horizontalSplitter << tab()->verticalSplitter;
+//    QGit::restoreGeometrySetting(QGit::REV_GEOM_KEY, NULL, &v);
 
-    connect(m(), SIGNAL(typeWriterFontChanged()),
-            tab()->textEditDiff, SLOT(typeWriterFontChanged()));
+//    connect(m(), SIGNAL(typeWriterFontChanged()),
+//            tab()->textEditDiff, SLOT(typeWriterFontChanged()));
 
     connect(git, SIGNAL(newRevsAdded(const FileHistory*, const QVector<ShaString>&)),
             this, SLOT(on_newRevsAdded(const FileHistory*, const QVector<ShaString>&)));
@@ -66,14 +66,14 @@ RevsView::RevsView(MainImpl* mi, Git* g, bool isMain) : Domain(mi, g, isMain) {
     connect(m()->treeView, SIGNAL(contextMenu(const QString&, int)),
             this, SLOT(on_contextMenu(const QString&, int)));
 
-    connect(tab()->fileList, SIGNAL(contextMenu(const QString&, int)),
-            this, SLOT(on_contextMenu(const QString&, int)));
+//    connect(tab()->fileList, SIGNAL(contextMenu(const QString&, int)),
+//            this, SLOT(on_contextMenu(const QString&, int)));
 
-    connect(m(), SIGNAL(changeFont(const QFont&)),
-           tab()->fileList, SLOT(on_changeFont(const QFont&)));
+//    connect(m(), SIGNAL(changeFont(const QFont&)),
+//           tab()->fileList, SLOT(on_changeFont(const QFont&)));
 
-    connect(m(), SIGNAL(highlightPatch(const QString&, bool)),
-            tab()->textEditDiff, SLOT(on_highlightPatch(const QString&, bool)));
+//    connect(m(), SIGNAL(highlightPatch(const QString&, bool)),
+//            tab()->textEditDiff, SLOT(on_highlightPatch(const QString&, bool)));
 }
 
 RevsView::~RevsView() {
@@ -81,15 +81,15 @@ RevsView::~RevsView() {
     if (!parent())
         return;
 
-    QVector<QSplitter*> v;
-    v << tab()->horizontalSplitter << tab()->verticalSplitter;
-    QGit::saveGeometrySetting(QGit::REV_GEOM_KEY, NULL, &v);
+//    QVector<QSplitter*> v;
+//    v << tab()->horizontalSplitter << tab()->verticalSplitter;
+//    QGit::saveGeometrySetting(QGit::REV_GEOM_KEY, NULL, &v);
 
     // manually delete before container is removed in Domain
     // d'tor to avoid a crash due to spurious events in
     // SmartBrowse::eventFilter()
-    delete tab()->textBrowserDesc;
-    delete tab()->textEditDiff;
+//    delete tab()->textBrowserDesc;
+//    delete tab()->textEditDiff;
 
     delete linkedPatchView;
     delete revTab;
@@ -99,9 +99,9 @@ void RevsView::clear(bool complete) {
 
     Domain::clear(complete);
 
-    tab()->textBrowserDesc->clear();
-    tab()->textEditDiff->clear();
-    tab()->fileList->clear();
+//    tab()->textBrowserDesc->clear();
+//    tab()->textEditDiff->clear();
+//    tab()->fileList->clear();
     m()->treeView->clear();
     updateLineEditSHA(true);
     if (linkedPatchView)
@@ -168,7 +168,7 @@ void RevsView::on_loadCompleted(const FileHistory* fh, const QString& stats) {
 void RevsView::on_updateRevDesc() {
 
     SCRef d = m()->getRevisionDesc(st.sha());
-    tab()->textBrowserDesc->setHtml(d);
+//    tab()->textBrowserDesc->setHtml(d);
 }
 
 bool RevsView::doUpdate(bool force) {
@@ -196,7 +196,7 @@ bool RevsView::doUpdate(bool force) {
 
         if (st.isChanged(StateInfo::ANY & ~StateInfo::FILE_NAME) || force) {
 
-            tab()->fileList->clear();
+//            tab()->fileList->clear();
 
             if (linkedPatchView) // give some feedback while waiting
                 linkedPatchView->clear();
@@ -205,10 +205,10 @@ bool RevsView::doUpdate(bool force) {
             files = git->getFiles(st.sha(), st.diffToSha(), st.allMergeFiles());
             newFiles = true;
 
-            tab()->textEditDiff->update(st);
+//            tab()->textEditDiff->update(st);
         }
         // call always to allow a simple refresh
-        tab()->fileList->update(files, newFiles);
+//        tab()->fileList->update(files, newFiles);
 
         // update the tree at startup or when releasing a no-match toolbar search
         if (m()->treeView->isVisible() || st.sha(false).isEmpty())
@@ -219,7 +219,7 @@ bool RevsView::doUpdate(bool force) {
             m()->updateContextActions(st.sha(), st.fileName(), isDir, found);
         }
         if (st.isChanged() || force)
-            tab()->textEditDiff->centerOnFileHeader(st);
+//            tab()->textEditDiff->centerOnFileHeader(st);
 
         // at the end update diffs that is the slowest and must be
         // run after update of file list for 'diff to sha' to work

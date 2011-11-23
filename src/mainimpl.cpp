@@ -163,8 +163,8 @@ MainImpl::MainImpl(SCRef cd, QWidget *parent)
     connect(rv->tab()->listViewLog, SIGNAL(doubleClicked(const QModelIndex&)),
             this, SLOT(listViewLog_doubleClicked(const QModelIndex&)));
 
-    connect(rv->tab()->fileList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
-            this, SLOT(fileList_itemDoubleClicked(QListWidgetItem*)));
+//    connect(rv->tab()->fileList, SIGNAL(itemDoubleClicked(QListWidgetItem*)),
+//            this, SLOT(fileList_itemDoubleClicked(QListWidgetItem*)));
 
     connect(treeView, SIGNAL(itemDoubleClicked(QTreeWidgetItem*, int)),
             this, SLOT(treeView_doubleClicked(QTreeWidgetItem*, int)));
@@ -529,13 +529,13 @@ void MainImpl::fileList_itemDoubleClicked(QListWidgetItem* item) {
     if (isFirst && rv->st.isMerge())
         return;
 
-    bool isMainView = (item && item->listWidget() == rv->tab()->fileList);
+//    bool isMainView = (item && item->listWidget() == rv->tab()->fileList);
 
-    if (isMainView && ActViewDiff->isEnabled())
-        ActViewDiff->activate(QAction::Trigger);
+//    if (isMainView && ActViewDiff->isEnabled())
+//        ActViewDiff->activate(QAction::Trigger);
 
-    if (item && !isMainView && ActViewFile->isEnabled())
-        ActViewFile->activate(QAction::Trigger);
+//    if (item && !isMainView && ActViewFile->isEnabled())
+//        ActViewFile->activate(QAction::Trigger);
 }
 
 void MainImpl::treeView_doubleClicked(QTreeWidgetItem* item, int)
@@ -1314,10 +1314,11 @@ void MainImpl::ActSplitView_activated()
 
     switch (currentTabType(&t)) {
     case TAB_REV: {
-        RevsView* rv = static_cast<RevsView*>(t);
-        QWidget* w = rv->tab()->fileList;
-        QSplitter* sp = static_cast<QSplitter*>(w->parent());
-        sp->setHidden(w->isVisible()); }
+//        RevsView* rv = static_cast<RevsView*>(t);
+//        QWidget* w = rv->tab()->fileList;
+//        QSplitter* sp = static_cast<QSplitter*>(w->parent());
+//        sp->setHidden(w->isVisible());
+    }
         break;
     case TAB_PATCH: {
         PatchView* pv = static_cast<PatchView*>(t);
