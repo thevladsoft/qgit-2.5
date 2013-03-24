@@ -5,9 +5,9 @@
 
 */
 #include <QContextMenuEvent>
-#include <QMenu>
+#include <QtWidgets/QMenu>
 #include <QPainter>
-#include <QScrollBar>
+#include <QtWidgets/QScrollBar>
 #include <QWheelEvent>
 #include "revsview.h"
 #include "smartbrowse.h"

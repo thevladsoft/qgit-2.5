@@ -4,7 +4,7 @@
 	Copyright: See COPYING file that comes with this distribution
 
 */
-#include <QScrollBar>
+#include <QtWidgets/QScrollBar>
 #include <QTextCharFormat>
 #include "common.h"
 #include "domain.h"

@@ -6,8 +6,8 @@
 	Copyright: See COPYING file that comes with this distribution
 
 */
-#include <QMenu>
-#include <QStackedWidget>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QStackedWidget>
 #include "common.h"
 #include "git.h"
 #include "domain.h"

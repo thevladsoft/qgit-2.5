@@ -7,13 +7,13 @@
 */
 #include <QTextCodec>
 #include <QSettings>
-#include <QMenu>
+#include <QtWidgets/QMenu>
 #include <QRegExp>
 #include <QDir>
-#include <QMessageBox>
-#include <QInputDialog>
-#include <QToolTip>
-#include <QScrollBar>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QInputDialog>
+#include <QtWidgets/QToolTip>
+#include <QtWidgets/QScrollBar>
 #include "exceptionmanager.h"
 #include "common.h"
 #include "git.h"

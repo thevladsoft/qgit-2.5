@@ -4,8 +4,8 @@
 	Copyright: See COPYING file that comes with this distribution
 
 */
-#include <QApplication>
-#include <QStatusBar>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QStatusBar>
 #include <QTimer>
 #include "FileHistory.h"
 #include "exceptionmanager.h"

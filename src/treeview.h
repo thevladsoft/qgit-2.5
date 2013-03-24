@@ -9,7 +9,7 @@
 #ifndef TREEVIEW_H
 #define TREEVIEW_H
 
-#include <QTreeWidget>
+#include <QtWidgets/QTreeWidget>
 #include "common.h"
 #include "git.h"
 

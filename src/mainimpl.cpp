@@ -9,15 +9,16 @@
 #include <QCloseEvent>
 #include <QDrag>
 #include <QEvent>
-#include <QFileDialog>
-#include <QInputDialog>
-#include <QMenu>
-#include <QMessageBox>
-#include <QProgressBar>
-#include <QScrollBar>
+#include <QMimeData>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QInputDialog>
+#include <QtWidgets/QMenu>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QProgressBar>
+#include <QtWidgets/QScrollBar>
 #include <QSettings>
-#include <QShortcut>
-#include <QStatusBar>
+#include <QtWidgets/QShortcut>
+#include <QtWidgets/QStatusBar>
 #include <QTimer>
 #include <QWheelEvent>
 #include "config.h" // defines PACKAGE_VERSION

@@ -7,7 +7,7 @@
 #ifndef SMARTBROWSE_H
 #define SMARTBROWSE_H
 
-#include <QLabel>
+#include <QtWidgets/QLabel>
 #include <QTime>
 #include "revsview.h"
 

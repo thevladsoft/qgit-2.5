@@ -16,10 +16,10 @@
 #include <QPixmap>
 #include <QProcess>
 #include <QSettings>
-#include <QSplitter>
+#include <QtWidgets/QSplitter>
 #include <QTemporaryFile>
 #include <QTextStream>
-#include <QWidget>
+#include <QtWidgets/QWidget>
 #include "common.h"
 #include "git.h"
 #include "annotate.h"

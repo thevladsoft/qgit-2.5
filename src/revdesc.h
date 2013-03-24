@@ -6,7 +6,7 @@
 #ifndef REVDESC_H
 #define REVDESC_H
 
-#include <QTextBrowser>
+#include <QtWidgets/QTextBrowser>
 
 class Domain;
 

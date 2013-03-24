@@ -6,8 +6,8 @@
 	Copyright: See COPYING file that comes with this distribution
 
 */
-#include <QApplication>
-#include <QTreeWidgetItemIterator>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QTreeWidgetItemIterator>
 #include "git.h"
 #include "domain.h"
 #include "mainimpl.h"

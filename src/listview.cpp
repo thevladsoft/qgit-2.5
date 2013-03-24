@@ -6,12 +6,13 @@
 	Copyright: See COPYING file that comes with this distribution
 
 */
-#include <QApplication>
-#include <QHeaderView>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QHeaderView>
+#include <QMimeData>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPixmap>
-#include <QShortcut>
+#include <QtWidgets/QShortcut>
 #include "FileHistory.h"
 #include "domain.h"
 #include "git.h"

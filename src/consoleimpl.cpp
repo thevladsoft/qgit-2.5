@@ -7,8 +7,8 @@
 
 */
 #include <QSettings>
-#include <QStatusBar>
-#include <QMessageBox>
+#include <QtWidgets/QStatusBar>
+#include <QtWidgets/QMessageBox>
 #include "myprocess.h"
 #include "git.h"
 #include "consoleimpl.h"

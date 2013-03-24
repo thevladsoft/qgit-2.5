@@ -4,13 +4,13 @@
 	Copyright: See COPYING file that comes with this distribution
 
 */
-#include <QListWidget>
+#include <QtWidgets/QListWidget>
 #include <QSyntaxHighlighter>
 #include <QTextCharFormat>
 #include <QTextCursor>
-#include <QScrollBar>
-#include <QMessageBox>
-#include <QApplication>
+#include <QtWidgets/QScrollBar>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QApplication>
 #include <QClipboard>
 #include <QTemporaryFile>
 #include <QAbstractTextDocumentLayout>

@@ -8,7 +8,7 @@
 #define PATCHCONTENT_H
 
 #include <QPointer>
-#include <QTextEdit>
+#include <QtWidgets/QTextEdit>
 #include <QSyntaxHighlighter>
 #include "common.h"
 

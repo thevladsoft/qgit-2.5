@@ -6,7 +6,7 @@
 #ifndef FILELIST_H
 #define FILELIST_H
 
-#include <QListWidget>
+#include <QtWidgets/QListWidget>
 #include "common.h"
 
 class Domain;

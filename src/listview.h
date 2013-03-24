@@ -6,8 +6,8 @@
 #ifndef LISTVIEW_H
 #define LISTVIEW_H
 
-#include <QTreeView>
-#include <QItemDelegate>
+#include <QtWidgets/QTreeView>
+#include <QtWidgets/QItemDelegate>
 #include <QSortFilterProxyModel>
 #include <QRegExp>
 #include "common.h"

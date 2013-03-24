@@ -8,7 +8,7 @@
 #define FILECONTENT_H
 
 #include <QPointer>
-#include <QTextEdit>
+#include <QtWidgets/QTextEdit>
 #include "common.h"
 
 class FileHighlighter;

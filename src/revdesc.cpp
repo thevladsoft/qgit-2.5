@@ -3,8 +3,8 @@
 
 	Copyright: See COPYING file that comes with this distribution
 */
-#include <QApplication>
-#include <QMenu>
+#include <QtWidgets/QApplication>
+#include <QtWidgets/QMenu>
 #include <QContextMenuEvent>
 #include <QRegExp>
 #include <QClipboard>

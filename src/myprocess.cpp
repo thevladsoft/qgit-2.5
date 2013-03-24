@@ -6,7 +6,7 @@
 	Copyright: See COPYING file that comes with this distribution
 
 */
-#include <QApplication>
+#include <QtWidgets/QApplication>
 #include <QTime>
 #include "exceptionmanager.h"
 #include "common.h"

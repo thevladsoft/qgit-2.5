@@ -9,7 +9,7 @@
 
 #include "FileHistory.h"
 
-#include <QApplication>
+#include <QtWidgets/QApplication>
 #include <QDateTime>
 #include <QFontMetrics>
 

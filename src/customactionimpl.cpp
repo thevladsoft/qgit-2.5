@@ -7,8 +7,8 @@
 
 */
 #include <QSettings>
-#include <QMessageBox>
-#include <QInputDialog>
+#include <QtWidgets/QMessageBox>
+#include <QtWidgets/QInputDialog>
 #include "common.h"
 #include "customactionimpl.h"
 

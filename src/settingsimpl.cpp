@@ -7,8 +7,8 @@
 
 */
 #include <QTextCodec>
-#include <QFileDialog>
-#include <QFontDialog>
+#include <QtWidgets/QFileDialog>
+#include <QtWidgets/QFontDialog>
 #include <QSettings>
 #include "common.h"
 #include "git.h"
