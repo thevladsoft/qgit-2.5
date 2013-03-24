@@ -92,7 +92,8 @@ void FileHistory::flushTail() {
   firstFreeLane = earlyOutputCntBase;
   lns->clear();
   rowCnt = revOrder.count();
-  reset();
+  beginResetModel();
+  endResetModel();
 }
 
 void FileHistory::clear(bool complete) {
@@ -124,7 +125,8 @@ void FileHistory::clear(bool complete) {
   }
   rowCnt = revOrder.count();
   annIdValid = false;
-  reset();
+  beginResetModel();
+  endResetModel();
   emit headerDataChanged(Qt::Horizontal, 0, 4);
 }
 
@@ -154,7 +156,8 @@ void FileHistory::on_loadCompleted(const FileHistory* fh, const QString&) {
 
   // now we can process last revision
   rowCnt = revOrder.count();
-  reset(); // force a reset to avoid artifacts in file history graph under Windows
+  beginResetModel(); // force a reset to avoid artifacts in file history graph under Windows
+  endResetModel();
 
   // adjust Id column width according to the numbers of revisions we have
   if (!git->isMainHistory(this))
